@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+    app:
+        image: kbs-service:2.0
+        container_name: kbs-service
+        restart: unless-stopped
+        networks:
+            - kbs-service
+        ports:
+            - 8181:3013
+ 
+networks:
+    kbs-service:
+        driver: bridge

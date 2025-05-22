@@ -1,0 +1,60 @@
+image: atlassian/default-image:3
+
+pipelines:
+  branches:
+    development:
+      - step:
+          name: Build images
+          script:
+            - export BUILD_ID=${BITBUCKET_BRANCH}_${BITBUCKET_COMMIT}_${BITBUCKET_BUILD_NUMBER}
+            - export IMAGE_NAME=${NEW_REGISTRY_URL}/baliexperience/kbs-service:latest-dev
+            - export USER=$NEW_REGISTRY_USER
+            - export PASS=$NEW_REGISTRY_PASS
+            - docker login ${NEW_REGISTRY_URL} -u ${NEW_REGISTRY_USER} -p ${NEW_REGISTRY_PASS}
+            - docker build -f ./Dockerfile-dev -t $IMAGE_NAME .
+            - docker push $IMAGE_NAME
+          services:
+            - docker
+            
+          caches:
+            - docker
+            
+      - step:
+          name: Deployment
+          image: ragilkbs/kbs-digital:latest
+          script:
+            - export IMAGE_NAME=${NEW_REGISTRY_URL}/baliexperience/kbs-service:latest-dev
+            - export SSHPASS=$SSH_PASS_DEV
+            - sshpass -p $SSHPASS ssh -o StrictHostKeyChecking=no $SSH_USER_DEV@$SSH_HOST_DEV "docker stop kbs-service; docker rm kbs-service; docker rmi $IMAGE_NAME; docker pull $IMAGE_NAME; docker run -d --name kbs-service -p 3013:3013 -p 4013:4013 --network kbs-service-net --add-host host.docker.internal:172.17.0.1 --restart unless-stopped $IMAGE_NAME"
+            - echo "Deployment Development done"
+
+    staging:
+      - step:
+          name: Build images
+          script:
+            - export BUILD_ID=${BITBUCKET_BRANCH}_${BITBUCKET_COMMIT}_${BITBUCKET_BUILD_NUMBER}
+            - export IMAGE_NAME=${NEW_REGISTRY_URL}/baliexperience/kbs-service:latest-stg
+            - export USER=$NEW_REGISTRY_USER
+            - export PASS=$NEW_REGISTRY_PASS
+            - docker login ${NEW_REGISTRY_URL} -u ${NEW_REGISTRY_USER} -p ${NEW_REGISTRY_PASS}
+            - docker build -f ./Dockerfile-stg -t $IMAGE_NAME .
+            - docker push $IMAGE_NAME
+          services:
+            - docker
+            
+          caches:
+            - docker
+            
+      - step:
+          name: Deployment
+          image: ragilkbs/kbs-digital:latest
+          script:
+            - export IMAGE_NAME=${NEW_REGISTRY_URL}/baliexperience/kbs-service:latest-stg  
+            - export SSHPASS=$SSH_PASS_STG
+            - sshpass -p $SSHPASS ssh -o StrictHostKeyChecking=no $SSH_USER_STG@$SSH_HOST_STG "docker stop kbs-service; docker rm kbs-service; docker rmi $IMAGE_NAME; docker pull $IMAGE_NAME; docker run -d --name kbs-service -p 3013:3013 -p 4013:4013 $IMAGE_NAME"
+            - echo "Deployment Staging done"
+
+definitions:
+  services:
+    docker:
+      memory: 2048 # reduce memory for docker-in-docker from 1GB to 512MB

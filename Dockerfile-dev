@@ -1,0 +1,38 @@
+FROM golang:1.22-alpine AS builder
+
+ARG ENVIRONMENT=development
+
+ENV ENV=${ENVIRONMENT}
+ENV PATH="/usr/local/go/bin:${PATH}"
+
+WORKDIR /backend-ejakti-kbs
+
+COPY . .
+
+# COPY environment-specific .env*
+COPY .env.${ENV} .env.application
+
+RUN apk update && apk add --no-cache gcc libc-dev && \
+    go version && go mod download && go mod verify && \
+    CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -ldflags "-X main.version=1.0.0 -X main.buildTime=$(date +%Y-%m-%d) -s -w" -o ./backend-ejakti-kbs
+
+#
+FROM alpine:3.18
+
+ENV TZ=Asia/Jakarta
+
+WORKDIR /backend-ejakti-kbs
+
+RUN apk update && \
+    apk add --no-cache tzdata
+
+COPY --from=builder /backend-ejakti-kbs/backend-ejakti-kbs .
+COPY --from=builder /backend-ejakti-kbs/.env.application .env
+COPY --from=builder /backend-ejakti-kbs/go.mod go.mod
+
+RUN chmod +x ./backend-ejakti-kbs
+
+EXPOSE 80
+EXPOSE 443 
+
+CMD ["./backend-ejakti-kbs"]

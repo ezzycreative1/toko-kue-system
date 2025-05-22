@@ -1,0 +1,1404 @@
+basePath: /api
+definitions:
+  areaModel.CreateAreaRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  areaModel.DetailAreaResponse:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  areaModel.GetListAreaResponse:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  brandModel.GetListBrandResponse:
+    properties:
+      code:
+        type: string
+      logo:
+        type: string
+      name:
+        type: string
+    type: object
+  clientModel.CreateClientRequest:
+    type: object
+  clientModel.DetailClientResponse:
+    properties:
+      client_address:
+        type: string
+      client_code:
+        type: string
+      client_email:
+        type: string
+      client_logo:
+        type: string
+      client_phone:
+        type: string
+      client_type_id:
+        type: integer
+      clientName:
+        type: string
+      establish_date:
+        type: string
+      is_active:
+        type: boolean
+      latitude:
+        type: string
+      longitude:
+        type: string
+      npwp:
+        type: string
+      website:
+        type: string
+    type: object
+  clientModel.UpdateClientRequest:
+    type: object
+  clientTypeModel.CreateClientTypeRequest:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  clientTypeModel.DetailClientTypeResponse:
+    properties:
+      client_type_id:
+        type: integer
+      client_type_name:
+        type: string
+    type: object
+  clientTypeModel.UpdateClientTypeRequest:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  pagingModel.DataPagingResponse:
+    properties:
+      current_page:
+        type: integer
+      per_page:
+        type: integer
+      total_pages:
+        type: integer
+      total_record:
+        type: integer
+    type: object
+  productCategoryModel.CreateProductCategoryRequest:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  productCategoryModel.DetailProductCategoryResponse:
+    properties:
+      product_category_id:
+        type: integer
+      product_category_name:
+        type: string
+      product_category_status:
+        type: string
+    type: object
+  productCategoryModel.UpdateProductCategoryRequest:
+    properties:
+      name:
+        type: string
+      status_product_category:
+        type: boolean
+    required:
+    - name
+    type: object
+  segmentModel.CreateSegmentRequest:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  segmentModel.DetailSegmentResponse:
+    properties:
+      segment_id:
+        type: integer
+      segment_name:
+        type: string
+    type: object
+  segmentModel.UpdateSegmentRequest:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  transmissionModel.Transmission:
+    enum:
+    - manual
+    - automatic
+    - cvt
+    type: string
+    x-enum-varnames:
+    - Manual
+    - Automatic
+    - CVT
+  vehicleModel.BrandData:
+    properties:
+      code:
+        type: string
+      logo:
+        type: string
+      name:
+        type: string
+    type: object
+  vehicleModel.DetailVehicleResponse:
+    properties:
+      brand:
+        $ref: '#/definitions/vehicleModel.BrandData'
+      code:
+        type: string
+      created_at:
+        type: string
+      fuel_type:
+        type: string
+      image:
+        type: string
+      max_bag_number:
+        type: integer
+      model:
+        type: string
+      name:
+        type: string
+      seat_number:
+        type: integer
+      transmission:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+      year:
+        type: integer
+    type: object
+  vehicleTypeModel.CreateVehicleTypeRequest:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  vehicleTypeModel.GetListVehicleTypeResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is API Documentation for Service E-Jakti KBS Swagger Services.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Service E-Jakti KBS Swagger API Documentation
+  version: "2.0"
+paths:
+  /v1/areas:
+    get:
+      consumes:
+      - application/json
+      description: View list area
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Area Name
+        example: Area 0
+        in: query
+        name: name
+        type: string
+      - description: Area Code
+        example: A-0
+        in: query
+        name: code
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            items:
+              $ref: '#/definitions/areaModel.GetListAreaResponse'
+            type: array
+        "400":
+          description: Response Error
+          schema:
+            items:
+              $ref: '#/definitions/areaModel.GetListAreaResponse'
+            type: array
+      summary: API List Area (CMS Transport)
+      tags:
+      - Area
+    post:
+      consumes:
+      - application/json
+      description: Create area for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Request Parameters
+        in: body
+        name: AreaRequest
+        required: true
+        schema:
+          $ref: '#/definitions/areaModel.CreateAreaRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: API Create Area (CMS Transport)
+      tags:
+      - Area
+  /v1/areas/{code}:
+    get:
+      consumes:
+      - application/json
+      description: Get detail area for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Area Code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/areaModel.DetailAreaResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/areaModel.DetailAreaResponse'
+      summary: API Get Detail Area (CMS Transport)
+      tags:
+      - Area
+  /v1/channels:
+    get:
+      consumes:
+      - application/json
+      description: Get list channel for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Channel Title
+        example: Tiket.com
+        in: query
+        name: title
+        type: string
+      - description: Channel Code
+        example: C-0001
+        in: query
+        name: code
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+      summary: API Get List Channel (CMS Transport)
+      tags:
+      - Channel
+    post:
+      consumes:
+      - application/json
+      description: Create channel for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Code
+        in: formData
+        name: code
+        required: true
+        type: string
+      - description: Title
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Description
+        in: formData
+        name: description
+        type: string
+      - description: Logo
+        in: formData
+        name: logo
+        type: file
+      - description: Api Base URL
+        in: formData
+        name: api_base_url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: API Create Channel (CMS Transport)
+      tags:
+      - Channel
+  /v1/channels/{code}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete channel for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Channel Code
+        example: TK
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: API Get Delete Channel (CMS Transport)
+      tags:
+      - Channel
+    get:
+      consumes:
+      - application/json
+      description: Get detail channel for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Channel Code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/vehicleModel.DetailVehicleResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/vehicleModel.DetailVehicleResponse'
+      summary: API Get Detail Channel (CMS Transport)
+      tags:
+      - Channel
+    put:
+      consumes:
+      - application/json
+      description: Update channel for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Channel Code
+        example: TK
+        in: path
+        name: code
+        required: true
+        type: string
+      - description: Title
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Description
+        in: formData
+        name: description
+        type: string
+      - description: Logo
+        in: formData
+        name: logo
+        type: file
+      produces:
+      - application/json
+      responses: {}
+      summary: API Get Update Channel (CMS Transport)
+      tags:
+      - Channel
+  /v1/health-check:
+    get:
+      consumes:
+      - application/json
+      description: LOV untuk health check
+      produces:
+      - application/json
+      responses: {}
+      summary: Get Health Check
+      tags:
+      - HealthCheck
+  /v1/vehicles:
+    get:
+      consumes:
+      - application/json
+      description: Get list vehicle for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Vehicle Name
+        example: Avanza
+        in: query
+        name: name
+        type: string
+      - description: Vehicle Brand Code
+        example: B-01
+        in: query
+        name: brand_code
+        type: string
+      - description: Vehicle Type ID
+        example: 1
+        in: query
+        name: type_id
+        type: integer
+      - description: Number of items per page
+        example: 25
+        in: query
+        name: limit
+        type: integer
+      - description: Page number
+        example: 1
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+      summary: API Get List Vehicle (CMS Transport)
+      tags:
+      - Vehicle
+    post:
+      consumes:
+      - application/json
+      description: Create vehicle for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Brand ID
+        in: formData
+        name: brand_id
+        required: true
+        type: string
+      - description: Name
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Model
+        in: formData
+        name: model
+        required: true
+        type: string
+      - description: Fuel Type
+        in: formData
+        name: fuel_type
+        required: true
+        type: string
+      - description: Type ID
+        in: formData
+        name: type_id
+        required: true
+        type: integer
+      - description: Year Of Manufacture
+        in: formData
+        name: year
+        required: true
+        type: integer
+      - description: Vehicle Transmission
+        in: formData
+        name: transmission
+        required: true
+        type: string
+      - description: Max Bag Number
+        in: formData
+        name: max_bag_number
+        required: true
+        type: integer
+      - description: Seat Number
+        in: formData
+        name: seat_number
+        required: true
+        type: integer
+      - description: Image
+        in: formData
+        name: image
+        type: file
+      produces:
+      - application/json
+      responses: {}
+      summary: API Create Vehicle (CMS Transport)
+      tags:
+      - Vehicle
+  /v1/vehicles/{vehicle_code}:
+    get:
+      consumes:
+      - application/json
+      description: Get detail vehicle for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Vehicle Code
+        in: path
+        name: vehicle_code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/vehicleModel.DetailVehicleResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/vehicleModel.DetailVehicleResponse'
+      summary: API Get Detail Vehicle (CMS Transport)
+      tags:
+      - Vehicle
+  /v1/vehicles/brand:
+    post:
+      consumes:
+      - application/json
+      description: Create brand for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Brand Name
+        in: formData
+        name: name
+        type: string
+      - description: Brand Logo
+        in: formData
+        name: logo
+        type: file
+      produces:
+      - application/json
+      responses: {}
+      summary: API Create Brand (CMS Transport)
+      tags:
+      - Brand
+  /v1/vehicles/brands:
+    get:
+      consumes:
+      - application/json
+      description: View list brands
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            items:
+              $ref: '#/definitions/brandModel.GetListBrandResponse'
+            type: array
+        "400":
+          description: Response Error
+          schema:
+            items:
+              $ref: '#/definitions/brandModel.GetListBrandResponse'
+            type: array
+      summary: API List Brands (CMS Transport)
+      tags:
+      - Brand
+  /v1/vehicles/transmissions:
+    get:
+      consumes:
+      - application/json
+      description: View list transmission
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            items:
+              $ref: '#/definitions/transmissionModel.Transmission'
+            type: array
+        "400":
+          description: Response Error
+          schema:
+            items:
+              $ref: '#/definitions/transmissionModel.Transmission'
+            type: array
+      summary: API List Transmission (CMS Transport)
+      tags:
+      - Transmission
+  /v1/vehicles/type:
+    post:
+      consumes:
+      - application/json
+      description: Create vehilce type for CMS Transport
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Request Parameters
+        in: body
+        name: VehicleTypeRequest
+        required: true
+        schema:
+          $ref: '#/definitions/vehicleTypeModel.CreateVehicleTypeRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: API Create Vehicle Type (CMS Transport)
+      tags:
+      - Vehicle Type
+  /v1/vehicles/types:
+    get:
+      consumes:
+      - application/json
+      description: View list vehicle type
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            items:
+              $ref: '#/definitions/vehicleTypeModel.GetListVehicleTypeResponse'
+            type: array
+        "400":
+          description: Response Error
+          schema:
+            items:
+              $ref: '#/definitions/vehicleTypeModel.GetListVehicleTypeResponse'
+            type: array
+      summary: API List Vehilce Type (CMS Transport)
+      tags:
+      - Vehicle Type
+  /v2/client:
+    post:
+      consumes:
+      - application/json
+      description: Create client
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Request Parameters
+        in: body
+        name: CreateClientRequest
+        required: true
+        schema:
+          $ref: '#/definitions/clientModel.CreateClientRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: API Create Client V2
+      tags:
+      - Client V2
+  /v2/client/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete client
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Client ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: API Delete Client V2
+      tags:
+      - Client V2
+    put:
+      consumes:
+      - application/json
+      description: Update client
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Client ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Request Parameters
+        in: body
+        name: UpdateClientRequest
+        required: true
+        schema:
+          $ref: '#/definitions/clientModel.UpdateClientRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: API Update Client V2
+      tags:
+      - Client V2
+  /v2/client/{id}/detail:
+    get:
+      consumes:
+      - application/json
+      description: View detail client
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Client ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/clientModel.DetailClientResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/clientModel.DetailClientResponse'
+      summary: API Detail Client V2
+      tags:
+      - Client V2
+  /v2/client/list:
+    get:
+      consumes:
+      - application/json
+      description: View list client
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Search Term
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        example: created_at
+        in: query
+        name: sort_by
+        type: string
+      - description: Sort direction
+        enum:
+        - asc
+        - desc
+        example: asc
+        in: query
+        name: sort_direction
+        type: string
+      - description: Number of items per page
+        example: 25
+        in: query
+        name: limit
+        type: integer
+      - description: Page number
+        example: 1
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+      summary: API List Client V2
+      tags:
+      - Client V2
+  /v2/client/type:
+    post:
+      consumes:
+      - application/json
+      description: Create client type
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Request Parameters
+        in: body
+        name: CreateClientTypeRequest
+        required: true
+        schema:
+          $ref: '#/definitions/clientTypeModel.CreateClientTypeRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: API Create Client Type V2
+      tags:
+      - Client Type V2
+  /v2/client/type/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete client type
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Client Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: API Delete Client Type V2
+      tags:
+      - Client Type V2
+    put:
+      consumes:
+      - application/json
+      description: Update client type
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Client Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Request Parameters
+        in: body
+        name: UpdateClientTypeRequest
+        required: true
+        schema:
+          $ref: '#/definitions/clientTypeModel.UpdateClientTypeRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: API Update Client Type V2
+      tags:
+      - Client Type V2
+  /v2/client/type/{id}/detail:
+    get:
+      consumes:
+      - application/json
+      description: View detail client type
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Client Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/clientTypeModel.DetailClientTypeResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/clientTypeModel.DetailClientTypeResponse'
+      summary: API Detail Client Type V2
+      tags:
+      - Client Type V2
+  /v2/client/type/list:
+    get:
+      consumes:
+      - application/json
+      description: View list client type
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Search Term
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        example: created_at
+        in: query
+        name: sort_by
+        type: string
+      - description: Sort direction
+        enum:
+        - asc
+        - desc
+        example: asc
+        in: query
+        name: sort_direction
+        type: string
+      - description: Number of items per page
+        example: 25
+        in: query
+        name: limit
+        type: integer
+      - description: Page number
+        example: 1
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+      summary: API List Client Type V2
+      tags:
+      - Client Type V2
+  /v2/product/category:
+    post:
+      consumes:
+      - application/json
+      description: Create product category
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Request Parameters
+        in: body
+        name: CreateProductCategoryRequest
+        required: true
+        schema:
+          $ref: '#/definitions/productCategoryModel.CreateProductCategoryRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: API Create Product Category V2
+      tags:
+      - Product Category V2
+  /v2/product/category/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete product category
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Product Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: API Delete Product Category V2
+      tags:
+      - Product Category V2
+    put:
+      consumes:
+      - application/json
+      description: Update product category
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Product Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Request Parameters
+        in: body
+        name: UpdateProductCategoryRequest
+        required: true
+        schema:
+          $ref: '#/definitions/productCategoryModel.UpdateProductCategoryRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: API Update Product Category V2
+      tags:
+      - Product Category V2
+  /v2/product/category/{id}/detail:
+    get:
+      consumes:
+      - application/json
+      description: View detail product category
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Product Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/productCategoryModel.DetailProductCategoryResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/productCategoryModel.DetailProductCategoryResponse'
+      summary: API Detail Product Category V2
+      tags:
+      - Product Category V2
+  /v2/product/category/list:
+    get:
+      consumes:
+      - application/json
+      description: View list product category
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Search Term
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        example: created_at
+        in: query
+        name: sort_by
+        type: string
+      - description: Sort direction
+        enum:
+        - asc
+        - desc
+        example: asc
+        in: query
+        name: sort_direction
+        type: string
+      - description: Number of items per page
+        example: 25
+        in: query
+        name: limit
+        type: integer
+      - description: Page number
+        example: 1
+        in: query
+        name: page
+        type: integer
+      - description: Filter by status
+        enum:
+        - true
+        - false
+        in: query
+        name: is_active
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+      summary: API List Detail Product Category V2
+      tags:
+      - Product Category V2
+  /v2/segment:
+    post:
+      consumes:
+      - application/json
+      description: Create segment
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Request Parameters
+        in: body
+        name: CreateSegmentRequest
+        required: true
+        schema:
+          $ref: '#/definitions/segmentModel.CreateSegmentRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: API Create Segment V2
+      tags:
+      - Segment V2
+  /v2/segment/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete segment
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Segment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: API Delete Segment V2
+      tags:
+      - Segment V2
+    put:
+      consumes:
+      - application/json
+      description: Update segment
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Segment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Request Parameters
+        in: body
+        name: UpdateSegmentRequest
+        required: true
+        schema:
+          $ref: '#/definitions/segmentModel.UpdateSegmentRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: API Update Segment V2
+      tags:
+      - Segment V2
+  /v2/segment/{id}/detail:
+    get:
+      consumes:
+      - application/json
+      description: View detail segment
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        type: string
+      - description: Segment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/segmentModel.DetailSegmentResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/segmentModel.DetailSegmentResponse'
+      summary: API Detail Segment V2
+      tags:
+      - Segment V2
+  /v2/segment/list:
+    get:
+      consumes:
+      - application/json
+      description: View list segment
+      parameters:
+      - description: Authorization
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNWQxNjY5NS0xZjJlLTQ1...
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Search Term
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        example: created_at
+        in: query
+        name: sort_by
+        type: string
+      - description: Sort direction
+        enum:
+        - asc
+        - desc
+        example: asc
+        in: query
+        name: sort_direction
+        type: string
+      - description: Number of items per page
+        example: 25
+        in: query
+        name: limit
+        type: integer
+      - description: Page number
+        example: 1
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response Success
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+        "400":
+          description: Response Error
+          schema:
+            $ref: '#/definitions/pagingModel.DataPagingResponse'
+      summary: API List Segment V2
+      tags:
+      - Segment V2
+schemes:
+- http
+- https
+swagger: "2.0"
